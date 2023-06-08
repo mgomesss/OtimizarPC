@@ -12,6 +12,9 @@ class Program
             LimparPastasSeguras();
             DesativarAplicativosEmSegundoPlano();
             DesativarEfeitosDeTransparencia();
+            OtimizarHD("C");
+            AtualizarPC();
+            //EscanearPorVirus();
             AguardarParaFechar();
         }
         catch (Exception ex)
@@ -94,6 +97,30 @@ class Program
     static void AguardarParaFechar()
     {
         Console.ReadLine();
+    }
+    static void OtimizarHD(string driveLetter)
+    {
+        // Certifique-se de que a letra da unidade seja válida.
+        if (!string.IsNullOrEmpty(driveLetter) && driveLetter.Length == 1)
+        {
+            string output = ExecuteCommand($"/C defrag {driveLetter}: /O /U");
+            Console.WriteLine("HD Otimizado");
+        }
+        else
+        {
+            Console.WriteLine("Letra de unidade inválida.");
+        }
+    }
+    static void AtualizarPC()
+    {
+        string output = ExecuteCommand("/C wuauclt.exe /updatenow");
+        Console.WriteLine("Drivers sendo atualizados");
+    }
+    static void EscanearPorVirus()
+    {
+        string output = ExecuteCommand("/C mrt.exe /F:Y");
+        Console.WriteLine("Escaneamento por virus concluido");
+
     }
 
 
